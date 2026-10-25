@@ -5,3 +5,7 @@ manage *args:
 # pre-commit runner
 pre-commit *args:
 	uv run pre-commit {{args}}
+
+# runserver
+runserver:
+	uv run python manage.py runserver
