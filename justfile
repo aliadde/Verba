@@ -9,3 +9,11 @@ pre-commit *args:
 # runserver
 runserver:
 	uv run python manage.py runserver
+
+# migrate
+migrate:
+	uv run python manage.py migrate
+
+# makemigration
+makemigration:
+	uv run python manage.py makemigrations
