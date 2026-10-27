@@ -59,4 +59,8 @@ USE_I18N = True
 
 USE_TZ = True
 
-STATIC_URL = str(BASE_DIR / "src/verba/statics")
+STATIC_URL = "/static/"
+
+STATICFILES_DIRS = [BASE_DIR / "src/verba/statics"]
+
+STATIC_ROOT = BASE_DIR / "staticfiles"
