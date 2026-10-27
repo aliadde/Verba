@@ -18,6 +18,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "verba.apps.users",
+    "verba.apps.notes",
 ]
 
 MIDDLEWARE = [
@@ -64,3 +66,5 @@ STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "src/verba/statics"]
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
+AUTH_USER_MODEL = "users.Users"
