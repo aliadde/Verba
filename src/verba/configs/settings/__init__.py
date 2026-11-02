@@ -63,7 +63,7 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 
-STATICFILES_DIRS = [BASE_DIR / "src/verba/statics"]
+STATICFILES_DIRS = [BASE_DIR / "src/verba/static"]
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
