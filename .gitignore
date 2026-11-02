@@ -13,3 +13,4 @@ db.*
 tasks.txt
 .ruff*
 .mypy*
+node_modules
