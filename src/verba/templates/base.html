@@ -9,25 +9,32 @@
 
     <link
         rel="stylesheet"
-        href="{% static 'verba/vendor/tabler/css/tabler.min.css' %}"
+        href="{% static 'verba/vendor/css/tabler.min.css' %}"
     >
     {% block extra_css %}
         <style>
-          :root {
-                --tblr-primary: #1d32f1;
-          }
           .navbar_base_color {
-            background-color: #3e1372;
+            background-color: #342bd8;
           }
           .base_background_color {
-            background-color: #733a86;
+            background-color: #0a0a26;
           }
           .text_color {
-            color: aliceblue;
+            color: #ebe9fc;
+          }
+          .text_color_secoundary {
+            color: #ebe9fca9;
           }
           .card_background_color {
-            background-color: #EBF5A0;
+            background-color: #150fcc;
           }
+          .big_size_text {
+            font-size: large;
+          }
+          .mid_size_text {
+            font-size: 25px;
+          }
+
         </style>
     {% endblock %}
 </head>
@@ -92,7 +99,7 @@
             </header>
             {% block content %}{% endblock %}
 
-            <script src="{% static 'verba/vendor/tabler/js/tabler.min.js' %}"></script>
+            <script src="{% static 'verba/vendor/js/tabler.min.js' %}"></script>
 
             {% block extra_js %}{% endblock %}
         </div>
