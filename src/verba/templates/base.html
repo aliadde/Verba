@@ -13,20 +13,33 @@
     >
     {% block extra_css %}
         <style>
-            :root {
+          :root {
                 --tblr-primary: #1d32f1;
-            }
+          }
+          .navbar_base_color {
+            background-color: #3e1372;
+          }
+          .base_background_color {
+            background-color: #733a86;
+          }
+          .text_color {
+            color: aliceblue;
+          }
+          .card_background_color {
+            background-color: #EBF5A0;
+          }
         </style>
     {% endblock %}
 </head>
 
 <body>
-    <div class="page bg-dark-lt">
+    <div class="page base_background_color ">
         <div class="page-wrapper">
-            <header class="navbar navbar-expand-md d-print-none">
-                <div class="container-xl">
+          <!-- header -->
+            <header class="navbar navbar-expand-md d-print-none navbar_base_color">
+                <div class="container-xl ">
 
-                    <button class="navbar-toggler" type="button"
+                    <button class="navbar-toggler text_color" type="button"
                         data-bs-toggle="collapse" data-bs-target="#navbar-menu"
                         aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon">
@@ -40,37 +53,37 @@
                             <a class="nav-link" href="#">
                               <span class="nav-link-icon">
                                 <!-- Download SVG icon from http://tabler.io/icons/icon/home -->
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" class="icon">
+                                <svg class="text_color" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" class="icon">
                                   <path d="M5 12l-2 0l9 -9l9 9l-2 0" />
                                   <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
                                   <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
                                 </svg>
                               </span>
-                              <span class="nav-link-title">Home</span>
+                              <span class="nav-link-title text_color">Home</span>
                             </a>
                           </li>
                           <li class="nav-item">
                             <a class="nav-link" href="#">
                               <span class="nav-link-icon">
                                 <!-- Download SVG icon from http://tabler.io/icons/icon/checkbox -->
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" class="icon">
+                                <svg  class="text_color" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" class="icon">
                                   <path d="M9 11l3 3l8 -8" />
                                   <path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9" />
                                 </svg>
                               </span>
-                              <span class="nav-link-title">Profile</span>
+                              <span class="nav-link-title text_color">Profile</span>
                             </a>
                           </li>
                           <li class="nav-item">
                             <a class="nav-link" href="#">
                               <span class="nav-link-icon">
                                 <!-- Download SVG icon from http://tabler.io/icons/icon/checkbox -->
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" class="icon">
+                                <svg  class="text_color" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" class="icon">
                                   <path d="M9 11l3 3l8 -8" />
                                   <path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9" />
                                 </svg>
                               </span>
-                              <span class="nav-link-title">Settings</span>
+                              <span class="nav-link-title text_color">Settings</span>
                             </a>
                           </li>
                         </ul>
