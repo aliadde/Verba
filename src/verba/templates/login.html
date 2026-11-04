@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Home | Verba{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-6 col-xl-6">
+                <div class="card card-sm mt-5">
+                    <div class="card-body my-3">
+                        <h3 class="text-center mb-3 pb-3">login</h3>
+                        <form action="/profile/login/" method="POST">
+                            {% csrf_token %}
+                            <div class="m-2">
+                                <label class="form-label">Username</label>
+                                <input  type="text" class="form-control" name="username" placeholder="username" />
+                            </div>
+                            <div class="m-2">
+                                <label class="form-label">Password</label>
+                                <input  type="password" class="form-control" name="password" placeholder="password" />
+                            </div>
+                            <div class="m-2 text-center">
+                                <input type="submit" class="btn" value="Submit" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
