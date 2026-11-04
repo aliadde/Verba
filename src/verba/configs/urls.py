@@ -10,7 +10,6 @@ def redirecter(request):
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", redirecter),
-    path("/", redirecter),
     path("note/", include("verba.apps.notes.urls")),
     path("profile/", include("verba.apps.users.urls")),
 ]
