@@ -56,8 +56,8 @@
 
                     <div class="collapse navbar-collapse" id="navbar-menu">
                         <ul class="navbar-nav">
-                          <li class="nav-item active">
-                            <a class="nav-link" href="{% url 'home' %}">
+                          <li id="nav-link-home" class="nav-item">
+                            <a class="nav-link" href="{% url 'home' %}" onclick="home_button_clicked()">
                               <span class="nav-link-icon">
                                 <!-- Download SVG icon from http://tabler.io/icons/icon/home -->
                                 <svg class="text_color" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" class="icon">
@@ -69,7 +69,7 @@
                               <span class="nav-link-title text_color">Home</span>
                             </a>
                           </li>
-                          <li class="nav-item">
+                          <li id="nav-link-profile" class="nav-item">
                             <a class="nav-link" href="{% url 'profile' %}">
                               <span class="nav-link-icon">
                                 <!-- Download SVG icon from http://tabler.io/icons/icon/checkbox -->
@@ -90,7 +90,26 @@
 
             <script src="{% static 'verba/vendor/js/tabler.min.js' %}"></script>
 
-            {% block extra_js %}{% endblock %}
+            {% block extra_js %}
+            <script>
+              document.addEventListener("DOMContentLoaded", () => {
+                const currentPath = window.location.pathname;
+
+                const homeNav = document.getElementById("nav-link-home");
+                const profileNav = document.getElementById("nav-link-profile");
+
+                homeNav.classList.remove("active");
+                profileNav.classList.remove("active");
+
+                if (currentPath === "/" || currentPath === "/note/") {
+                    homeNav.classList.add("active");
+                }
+                else if (currentPath.startsWith("/profile/")) {
+                    profileNav.classList.add("active");
+                }
+              });
+            </script>
+            {% endblock %}
         </div>
     </div>
 </body>
