@@ -17,3 +17,7 @@ def login(request):
 
         pass
     return render(request, "login.html")
+
+
+def register(request):
+    return render(request, "register.html")

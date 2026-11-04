@@ -17,3 +17,7 @@ migrate:
 # makemigration
 makemigration:
 	uv run python manage.py makemigrations
+
+# 'git add .' and 'git commit .'  automation
+fullcommit:
+	git add . && git commit .
