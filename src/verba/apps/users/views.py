@@ -1,5 +1,14 @@
+from django.contrib.auth.views import LoginView
 from django.shortcuts import render
 from django.views.decorators.http import require_http_methods
+
+from .forms import LoginForm
+
+
+class UserLoginView(LoginView):
+    template_name = "login.html"
+    authentication_form = LoginForm
+    redirect_authenticated_user = True
 
 
 @require_http_methods(["GET"])
@@ -11,10 +20,6 @@ def profile(request):
 @require_http_methods(["GET", "POST"])
 def login(request):
     if request.method == "POST":
-        # validate with form
-
-        # create jwt toekn and send to browser for saving
-
         pass
     return render(request, "login.html")
 
