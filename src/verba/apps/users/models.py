@@ -20,8 +20,6 @@ class UserManager(BaseUserManager):
         username = self.model.normalize_username(username)
         user = self.model(username=username, **extra_fields)
         user.set_password(password)
-        # sync your custom field with the hashed password
-        user.hashed_password = user.password
         user.save(using=self._db)
         return user
 
@@ -45,9 +43,6 @@ class UserManager(BaseUserManager):
 class Users(AbstractUser):
     username: models.CharField = models.CharField(
         unique=True, blank=False, null=False, max_length=100
-    )
-    hashed_password: models.CharField = models.CharField(
-        unique=True, blank=False, null=False, max_length=128
     )
     created_at: models.DateTimeField = models.DateTimeField(
         auto_now_add=True,
