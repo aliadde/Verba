@@ -97,7 +97,11 @@ class UserRegisterView(View):
         )
 
 
+from verba.core.decorators import jwt_required
+
+
 @require_http_methods(["GET"])
+@jwt_required
 def profile(request):
     context = {"username": "sample username", "email": "sample email", "cards": 12}
     return render(request, "profile.html", context=context)
