@@ -1,5 +1,7 @@
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+
+from .models import Users
 
 
 class LoginForm(AuthenticationForm):
@@ -20,3 +22,15 @@ class LoginForm(AuthenticationForm):
             }
         )
     )
+
+
+class RegisterForm(UserCreationForm):
+    class Meta(UserCreationForm.Meta):
+        model = Users
+        fields = ("username", "email")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for field in self.fields.values():
+            field.widget.attrs.update({"class": "form-control"})
