@@ -72,3 +72,5 @@ AUTH_USER_MODEL = "users.Users"
 LOGIN_URL = "login"
 
 LOGIN_REDIRECT_URL = "home"
+
+JWT_SECRET_KEY = "unsafe jwt toekn for development"
