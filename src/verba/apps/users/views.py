@@ -112,6 +112,7 @@ def profile(request):
         value="true",
         samesite="Lax",
         path="/",
+        max_age=30 * 60,
     )
 
     return response

@@ -14,7 +14,9 @@ def home(request):
         # get user from database
         user = get_object_or_404(Users, id=user_id)
 
-        context = {"logged_in": True, "user": user}
+        notes = user.notes_set.all()
+
+        context = {"logged_in": True, "user": user, "user_notes": notes}
     else:
         context = {"logged_in": None}
 

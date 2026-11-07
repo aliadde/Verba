@@ -12,30 +12,144 @@
         href="{% static 'verba/vendor/css/tabler.min.css' %}"
     >
     {% block extra_css %}
-        <style>
-          .navbar_base_color {
-            background-color: #342bd8;
-          }
-          .base_background_color {
-            background-color: #0a0a26;
-          }
-          .text_color {
-            color: #ebe9fc;
-          }
-          .text_color_secoundary {
-            color: #ebe9fca9;
-          }
-          .card_background_color {
-            background-color: #150fcc;
-          }
-          .big_size_text {
-            font-size: large;
-          }
-          .mid_size_text {
-            font-size: 25px;
-          }
+    <style>
+      :root {
+        --bg: #0a0a26;
+        --surface: rgba(255, 255, 255, 0.05);
+        --surface-hover: rgba(255, 255, 255, 0.09);
+        --border: rgba(255, 255, 255, 0.10);
+        --text: #ebe9fc;
+        --text-muted: #a9a6d6;
+        --accent-1: #6c63ff;
+        --accent-2: #2dd4bf;
+        --accent-3: #f59e0b;
+        --accent-4: #f472b6;
+      }
 
-        </style>
+      /* پس‌زمینه با یک درخشش ملایم */
+      .base_background_color {
+        background:
+          radial-gradient(900px 400px at 85% -10%, rgba(108, 99, 255, 0.25), transparent 60%),
+          radial-gradient(700px 350px at -10% 110%, rgba(45, 212, 191, 0.12), transparent 60%),
+          var(--bg);
+        min-height: 100vh;
+      }
+
+      /* نوار بالا: گرادیان و سایه */
+      .navbar_base_color {
+        background: linear-gradient(90deg, #1e1b6e 0%, #342bd8 100%);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+        border-bottom: 1px solid var(--border);
+      }
+      .navbar_base_color .nav-link { border-radius: 8px; transition: background .2s; }
+      .navbar_base_color .nav-link:hover { background: rgba(255, 255, 255, 0.12); }
+      .navbar_base_color .nav-item.active .nav-link { background: rgba(255, 255, 255, 0.18); }
+
+      #login-button {
+        background: rgba(255, 255, 255, 0.12);
+        color: var(--text);
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 6px 18px;
+        transition: background .2s, transform .2s;
+      }
+      #login-button:hover {
+        background: rgba(255, 255, 255, 0.22);
+        transform: translateY(-1px);
+      }
+
+      .text_color { color: var(--text); }
+      .text_color_secoundary { color: var(--text-muted); }
+
+      /* کارت یادداشت */
+      .note-card {
+        --accent: var(--accent-1);
+        position: relative;
+        overflow: hidden;
+        background: var(--surface);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+        transition: transform .2s ease, background .2s ease, box-shadow .2s ease, border-color .2s ease;
+        animation: noteFadeIn .45s ease both;
+      }
+      /* نوار رنگی کنار کارت */
+      .note-card::before {
+        content: "";
+        position: absolute;
+        inset: 0 auto 0 0;
+        width: 5px;
+        background: var(--accent);
+        box-shadow: 0 0 18px var(--accent);
+      }
+      .note-card:hover {
+        background: var(--surface-hover);
+        border-color: var(--accent);
+        transform: translateY(-3px);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+      }
+      .note-card .card-body { padding: 1.1rem 1.4rem 1.1rem 1.7rem; }
+
+      .note-title {
+        color: var(--text);
+        font-size: 1.3rem;
+        font-weight: 600;
+        line-height: 1.5;
+        margin: 0 0 .35rem;
+      }
+      .note-subtitle {
+        color: var(--text-muted);
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.6;
+        margin: 0;
+        padding-top: .5rem;
+        border-top: 1px dashed var(--border);
+      }
+
+      /* رنگ‌های متفاوت برای هر کارت */
+      .accent-1 { --accent: var(--accent-1); }
+      .accent-2 { --accent: var(--accent-2); }
+      .accent-3 { --accent: var(--accent-3); }
+      .accent-4 { --accent: var(--accent-4); }
+
+      /* تاخیر ورود پله‌ای */
+      .note-list > :nth-child(1) { animation-delay: .00s; }
+      .note-list > :nth-child(2) { animation-delay: .06s; }
+      .note-list > :nth-child(3) { animation-delay: .12s; }
+      .note-list > :nth-child(4) { animation-delay: .18s; }
+      .note-list > :nth-child(5) { animation-delay: .24s; }
+
+      @keyframes noteFadeIn {
+        from { opacity: 0; transform: translateY(12px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+
+      /* حالت خالی */
+      .empty-state {
+        text-align: center;
+        padding: 4rem 1rem;
+        color: var(--text-muted);
+        border: 1px dashed var(--border);
+        border-radius: 16px;
+        background: var(--surface);
+      }
+      .empty-state .emoji { font-size: 2.5rem; display: block; margin-bottom: .5rem; }
+
+      /* عنوان صفحه */
+      .page-heading {
+        color: var(--text);
+        font-weight: 700;
+        margin-bottom: 1.2rem;
+      }
+      .page-heading small { color: var(--text-muted); font-weight: 400; font-size: .9rem; margin-inline-start: .5rem; }
+
+      @media (prefers-reduced-motion: reduce) {
+        .note-card { animation: none; transition: none; }
+      }
+    </style>
     {% endblock %}
 </head>
 
