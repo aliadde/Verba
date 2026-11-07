@@ -3,6 +3,7 @@
 {% block title %}Home | Verba{% endblock %}
 
 {% block content %}
+    {% if not logged_in %}
     <div class="container-xl py-4">
         <div class="card bg-green-lt">
             <div class="card card-gradient border-1 m-2 card-sm card_background_color">
@@ -23,5 +24,10 @@
             </div>
         </div>
     </div>
+    {% else %}
+    <!-- reeal user notes must render here -->
+     <div>real user notes must be render here</div>
+     <h2>{{user}}</h2>
+    {% endif %}
 </div>
 {% endblock %}
