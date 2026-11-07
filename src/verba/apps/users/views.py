@@ -104,4 +104,25 @@ from verba.core.decorators import jwt_required
 @jwt_required
 def profile(request):
     context = {"username": "sample username", "email": "sample email", "cards": 12}
-    return render(request, "profile.html", context=context)
+
+    response = render(request, "profile.html", context=context)
+
+    response.set_cookie(
+        key="logged_in",
+        value="true",
+        samesite="Lax",
+        path="/",
+    )
+
+    return response
+
+
+@require_http_methods(["GET"])
+@jwt_required
+def logout(request):
+    response = redirect("login")
+
+    response.delete_cookie("access_token")
+    response.delete_cookie("logged_in")
+
+    return response

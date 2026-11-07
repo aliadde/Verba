@@ -84,7 +84,7 @@
 
                         </ul>
                       </div>
-                    <a href="/profile/login/" class="btn" role="button">Log In/Sign Up</a>
+                    <a href="/profile/login/" class="btn" role="button" id="login-button">Log In/Sign Up</a>
                 </div>
             </header>
             {% block content %}{% endblock %}
@@ -93,6 +93,20 @@
 
             {% block extra_js %}
             <script>
+              function getCookie(name) {
+                const cookies = document.cookie.split(";");
+
+                for (const cookie of cookies) {
+                    const [key, ...value] = cookie.trim().split("=");
+
+                    if (key === name) {
+                        return decodeURIComponent(value.join("="));
+                    }
+                }
+
+                return null;
+              }
+
               document.addEventListener("DOMContentLoaded", () => {
                 const currentPath = window.location.pathname;
 
@@ -105,11 +119,21 @@
                 if (currentPath === "/" || currentPath === "/note/") {
                     homeNav.classList.add("active");
                 }
-                else if (currentPath.startsWith("/profile/")) {
+                else if (currentPath === "/profile/") {
                     profileNav.classList.add("active");
                 }
               });
-            </script>
+
+              document.addEventListener("DOMContentLoaded", () => {
+                login_button = document.getElementById("login-button");
+                const logged_in_status = getCookie("logged_in");
+                if (logged_in_status){
+                  login_button.textContent = "Log Out";
+                  login_button.href = "/profile/logout/";
+                }
+              });
+
+          </script>
             {% endblock %}
         </div>
     </div>
