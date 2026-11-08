@@ -304,6 +304,195 @@
       @media (prefers-reduced-motion: reduce) {
         .profile-header, .stat-card { animation: none; transition: none; }
       }
+
+      /* ===== صفحه‌ی Login / Register ===== */
+      .auth-wrap {
+        min-height: calc(100vh - 140px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 1rem;
+      }
+
+      .auth-card {
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        max-width: 440px;
+        padding: 2.2rem 2rem;
+        background: var(--surface);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+        animation: noteFadeIn .5s ease both;
+      }
+      /* درخشش بنفش بالای کارت */
+      .auth-card::before {
+        content: "";
+        position: absolute;
+        inset: -40% -20% auto -20%;
+        height: 260px;
+        background: radial-gradient(ellipse at center, rgba(108, 99, 255, 0.35), transparent 65%);
+        pointer-events: none;
+      }
+      .auth-card > * { position: relative; }
+
+      .auth-logo {
+        width: 56px;
+        height: 56px;
+        margin: 0 auto 1rem;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: #fff;
+        background: linear-gradient(135deg, var(--accent-1), var(--accent-4));
+        box-shadow: 0 0 28px rgba(108, 99, 255, 0.55);
+      }
+      .auth-title {
+        color: var(--text);
+        text-align: center;
+        font-size: 1.7rem;
+        font-weight: 700;
+        margin: 0 0 .25rem;
+      }
+      .auth-subtitle {
+        color: var(--text-muted);
+        text-align: center;
+        margin: 0 0 1.6rem;
+      }
+
+      .auth-field { margin-bottom: 1.1rem; }
+      .auth-label {
+        display: block;
+        color: var(--text-muted);
+        font-size: .9rem;
+        font-weight: 500;
+        margin-bottom: .4rem;
+      }
+
+      /* فیلدهای فرم (هم ویجت‌های جنگو، هم input معمولی) */
+      .auth-card input[type="text"],
+      .auth-card input[type="password"],
+      .auth-card input[type="email"] {
+        width: 100%;
+        padding: 11px 14px;
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        outline: none;
+        transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+      }
+      .auth-card input::placeholder { color: rgba(169, 166, 214, 0.55); }
+      .auth-card input:focus {
+        background: rgba(255, 255, 255, 0.09);
+        border-color: var(--accent-1);
+        box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.25);
+        color: var(--text);
+      }
+
+      .auth-error {
+        color: #ff8fa3;
+        background: rgba(255, 77, 109, 0.12);
+        border: 1px solid rgba(255, 77, 109, 0.3);
+        border-radius: 12px;
+        padding: .6rem .9rem;
+        margin-bottom: 1rem;
+        font-size: .9rem;
+      }
+      .auth-error ul { margin: 0; padding: 0; list-style: none; }
+
+      .auth-submit {
+        width: 100%;
+        padding: 11px 18px;
+        margin-top: .4rem;
+        color: #fff;
+        font-weight: 600;
+        background: linear-gradient(135deg, var(--accent-1), #8b5cf6 55%, var(--accent-4));
+        border: 0;
+        border-radius: 999px;
+        box-shadow: 0 6px 20px rgba(108, 99, 255, 0.45);
+        transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+        cursor: pointer;
+      }
+      .auth-submit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 28px rgba(108, 99, 255, 0.6);
+        filter: brightness(1.08);
+      }
+      .auth-submit:active { transform: translateY(0); }
+      .auth-submit:focus-visible {
+        outline: 2px solid var(--accent-2);
+        outline-offset: 3px;
+      }
+
+      .auth-footer {
+        margin-top: 1.5rem;
+        padding-top: 1.2rem;
+        text-align: center;
+        color: var(--text-muted);
+        border-top: 1px dashed var(--border);
+      }
+      .auth-footer a {
+        color: var(--accent-2);
+        font-weight: 600;
+        text-decoration: none;
+        margin-inline-start: .25rem;
+      }
+      .auth-footer a:hover { text-decoration: underline; }
+
+      @media (prefers-reduced-motion: reduce) {
+        .auth-card { animation: none; }
+        .auth-submit, .auth-card input { transition: none; }
+      }
+      /* ===== مخصوص صفحه‌ی Register ===== */
+
+      /* ایمیل هم مثل بقیه‌ی فیلدها (اگر type=email باشد، قبلاً پوشش داده شده؛ این برای اطمینان است) */
+      .auth-card input[type="email"] { width: 100%; }
+
+      /* خطای زیر هر فیلد (مثلاً «این نام کاربری قبلاً گرفته شده») */
+      .auth-field-error {
+        color: #ff8fa3;
+        font-size: .82rem;
+        margin-top: .35rem;
+      }
+      .auth-field-error ul { margin: 0; padding: 0; list-style: none; }
+
+      /* راهنمای زیر فیلد رمز عبور (help_text جنگو) */
+      .auth-help {
+        color: var(--text-muted);
+        font-size: .78rem;
+        line-height: 1.6;
+        margin-top: .35rem;
+        opacity: .85;
+      }
+      .auth-help ul { margin: 0; padding-inline-start: 1.1rem; }
+
+      /* فیلدی که خطا دارد: لبه‌ی قرمز ملایم */
+      .auth-field.has-error input {
+        border-color: rgba(255, 77, 109, 0.6);
+      }
+      .auth-field.has-error input:focus {
+        box-shadow: 0 0 0 4px rgba(255, 77, 109, 0.2);
+      }
+
+      /* دو فیلد کنار هم در دسکتاپ (رمز و تکرار رمز) */
+      .auth-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0 .9rem;
+      }
+      @media (max-width: 576px) {
+        .auth-row { grid-template-columns: 1fr; }
+      }
+
+      /* کارت Register کمی عریض‌تر از Login */
+      .auth-card.auth-card-wide { max-width: 520px; }
     </style>
     {% endblock %}
 </head>

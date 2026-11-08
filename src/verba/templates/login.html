@@ -1,45 +1,40 @@
 {% extends "base.html" %}
 
-{% block title %}Home | Verba{% endblock %}
+{% block title %}Login | Verba{% endblock %}
 
 {% block content %}
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-12 col-md-6 col-xl-6">
-                <div class="card card-sm mt-5">
-                    <div class="card-body my-3">
-                        <h3 class="text-center mb-3 pb-3">login</h3>
-                        <form method="POST">
-                            {% csrf_token %}
+<div class="auth-wrap">
+  <div class="auth-card">
 
-                            <div class="m-2">
-                                <label class="form-label">Username</label>
-                                {{ form.username }}
-                            </div>
+    <div class="auth-logo">V</div>
+    <h3 class="auth-title">Welcome back</h3>
+    <p class="auth-subtitle">Log in to see your notes</p>
 
-                            <div class="m-2">
-                                <label class="form-label">Password</label>
-                                {{ form.password }}
-                            </div>
+    <form method="POST">
+      {% csrf_token %}
 
-                            {% if form.non_field_errors %}
-                                <div class="text-danger m-2">
-                                    {{ form.non_field_errors }}
-                                </div>
-                            {% endif %}
+      <div class="auth-field">
+        <label class="auth-label" for="{{ form.username.id_for_label }}">Username</label>
+        {{ form.username }}
+      </div>
 
-                            <div class="m-2 text-center">
-                                <button type="submit" class="btn btn-primary">
-                                    Log In
-                                </button>
-                            </div>
-                        </form>
-                        <div class="mt-4">
-                            <span>Do not have an account? </span><a class="text-decoration-underline" href="/profile/register/">Sign Up</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+      <div class="auth-field">
+        <label class="auth-label" for="{{ form.password.id_for_label }}">Password</label>
+        {{ form.password }}
+      </div>
+
+      {% if form.non_field_errors %}
+        <div class="auth-error">{{ form.non_field_errors }}</div>
+      {% endif %}
+
+      <button type="submit" class="auth-submit">Log In</button>
+    </form>
+
+    <div class="auth-footer">
+      Don't have an account?
+      <a href="/profile/register/">Sign Up</a>
     </div>
+
+  </div>
+</div>
 {% endblock %}

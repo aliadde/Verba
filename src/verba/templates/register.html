@@ -1,52 +1,64 @@
 {% extends "base.html" %}
 
-{% block title %}Home | Verba{% endblock %}
+{% block title %}Sign Up | Verba{% endblock %}
 
 {% block content %}
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-12 col-md-6 col-xl-6">
-                <div class="card card-sm mt-5">
-                    <div class="card-body my-3">
-                        <h3 class="text-center mb-3 pb-3">Sign Up</h3>
-                        <form method="POST">
-                            {% csrf_token %}
+<div class="auth-wrap">
+  <div class="auth-card auth-card-wide">
 
-                            <div class="m-2">
-                                <label class="form-label">Username</label>
-                                {{ form.username }}
-                            </div>
-                            <div class="m-2">
-                                <label class="form-label">Email</label>
-                                {{ form.email }}
-                            </div>
-                            <div class="m-2">
-                                <label class="form-label">Password</label>
-                                {{ form.password1 }}
-                            </div>
-                            <div class="m-2">
-                                <label class="form-label">Confirm Password</label>
-                                {{ form.password2 }}
-                            </div>
+    <div class="auth-logo">V</div>
+    <h3 class="auth-title">Create your account</h3>
+    <p class="auth-subtitle">Start saving your notes in seconds</p>
 
-                            {% if form.non_field_errors %}
-                                <div class="text-danger m-2">
-                                    {{ form.non_field_errors }}
-                                </div>
-                            {% endif %}
+    <form method="POST" novalidate>
+      {% csrf_token %}
 
-                            <div class="m-2 text-center">
-                                <button type="submit" class="btn btn-primary">
-                                    Sign Up
-                                </button>
-                            </div>
-                        </form>
-                        <div class="mt-4">
-                            <span>have an account? </span><a class="text-decoration-underline" href="/profile/login/">Sign In</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <div class="auth-field {% if form.username.errors %}has-error{% endif %}">
+        <label class="auth-label" for="{{ form.username.id_for_label }}">Username</label>
+        {{ form.username }}
+        {% if form.username.errors %}
+          <div class="auth-field-error">{{ form.username.errors }}</div>
+        {% endif %}
+      </div>
+
+      <div class="auth-field {% if form.email.errors %}has-error{% endif %}">
+        <label class="auth-label" for="{{ form.email.id_for_label }}">Email</label>
+        {{ form.email }}
+        {% if form.email.errors %}
+          <div class="auth-field-error">{{ form.email.errors }}</div>
+        {% endif %}
+      </div>
+
+      <div class="auth-row">
+        <div class="auth-field {% if form.password1.errors %}has-error{% endif %}">
+          <label class="auth-label" for="{{ form.password1.id_for_label }}">Password</label>
+          {{ form.password1 }}
+          {% if form.password1.errors %}
+            <div class="auth-field-error">{{ form.password1.errors }}</div>
+          {% endif %}
         </div>
+
+        <div class="auth-field {% if form.password2.errors %}has-error{% endif %}">
+          <label class="auth-label" for="{{ form.password2.id_for_label }}">Confirm Password</label>
+          {{ form.password2 }}
+          {% if form.password2.errors %}
+            <div class="auth-field-error">{{ form.password2.errors }}</div>
+          {% endif %}
+        </div>
+      </div>
+
+      {% if form.non_field_errors %}
+        <div class="auth-error">{{ form.non_field_errors }}</div>
+      {% endif %}
+
+      <button type="submit" class="auth-submit">Sign Up</button>
+    </form>
+
+    <div class="auth-footer">
+      Already have an account?
+      <a href="/profile/login/">Sign In</a>
     </div>
+
+  </div>
+</div>
 {% endblock %}
