@@ -19,10 +19,14 @@
     </div>
 
   {% else %}
-    <h3 class="page-heading">
-      Your notes
-      <small>{{ user_notes|length }} total</small>
-    </h3>
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+      <h3 class="page-heading mb-0">
+        Your notes
+        <small>{{ user_notes|length }} total</small>
+      </h3>
+      <a href="{% url 'add_note' %}" class="add-note-btn">＋ Add Note</a>
+    </div>
+
     <div class="note-list d-flex flex-column gap-3">
       {% for user_note in user_notes %}
         <div class="card note-card accent-{% cycle '1' '2' '3' '4' %}">
@@ -35,6 +39,9 @@
         <div class="empty-state">
           <span class="emoji">📝</span>
           No notes yet. Your first note will show up here.
+          <div class="mt-3">
+            <a href="{% url 'add_note' %}" class="add-note-btn">＋ Add your first note</a>
+          </div>
         </div>
       {% endfor %}
     </div>
