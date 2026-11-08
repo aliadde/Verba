@@ -31,12 +31,16 @@
       {% for user_note in user_notes %}
         <div class="card note-card accent-{% cycle '1' '2' '3' '4' %}">
           <div class="card-body">
-            <h2 class="note-title" dir="auto">{{ user_note.first_note|truncatechars:100 }}</h2>
+            <h2 class="note-title" dir="auto">
+              <a href="{% url 'note_detail' user_note.id %}" class="note-link stretched-link">
+                {{ user_note.first_note|truncatechars:100 }}
+              </a>
+            </h2>
             <h4 class="note-subtitle" dir="auto">{{ user_note.secound_note|truncatechars:100 }}</h4>
           </div>
         </div>
       {% empty %}
-        <div class="empty-state">
+          <div class="empty-state">
           <span class="emoji">📝</span>
           No notes yet. Your first note will show up here.
           <div class="mt-3">

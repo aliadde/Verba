@@ -7,6 +7,7 @@ from verba.core.auth import get_payload_from_request
 from verba.core.decorators import jwt_required
 
 from .forms import NoteForm
+from .models import Notes
 
 
 @never_cache
@@ -43,3 +44,9 @@ def add_note(request):
         form = NoteForm()
 
     return render(request, "add_note.html", {"form": form})
+
+
+@jwt_required
+def note_detail(request, note_id):
+    note = get_object_or_404(Notes, pk=note_id, user=request.user)
+    return render(request, "note_detail.html", {"note": note})

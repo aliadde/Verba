@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Note | Verba{% endblock %}
+
+{% block content %}
+<div class="container-xl py-4">
+  <div class="note-detail">
+
+    <p class="note-detail-label">Note</p>
+    <p class="note-detail-text" dir="auto">{{ note.first_note }}</p>
+
+    <p class="note-detail-label">Second note</p>
+    <p class="note-detail-text secondary" dir="auto">{{ note.secound_note }}</p>
+
+    <p class="note-detail-meta">Created: {{ note.created_at|date:"Y-m-d" }}</p>
+
+    <div class="note-detail-actions">
+      <a href="{% url 'home' %}" class="auth-cancel">← Back to notes</a>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
