@@ -1,3 +1,4 @@
+<!-- https://claude.ai/chat/dacdfa88-0d77-4049-97d1-86859344d717 -->
 {% load static %}
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -148,6 +149,160 @@
 
       @media (prefers-reduced-motion: reduce) {
         .note-card { animation: none; transition: none; }
+      }
+      /* ===== صفحه‌ی پروفایل ===== */
+      .profile-wrap {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      .profile-header {
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.4rem;
+        padding: 1.8rem;
+        background: var(--surface);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        box-shadow: 0 8px 28px rgba(0, 0, 0, 0.3);
+        animation: noteFadeIn .45s ease both;
+      }
+      /* درخشش پشت کارت هدر */
+      .profile-header::before {
+        content: "";
+        position: absolute;
+        inset: -60% auto auto -10%;
+        width: 380px;
+        height: 380px;
+        background: radial-gradient(circle, rgba(108, 99, 255, 0.35), transparent 65%);
+        pointer-events: none;
+      }
+
+      .profile-avatar {
+        position: relative;
+        flex-shrink: 0;
+        width: 84px;
+        height: 84px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: #fff;
+        background: linear-gradient(135deg, var(--accent-1), var(--accent-4));
+        box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.08), 0 0 28px rgba(108, 99, 255, 0.55);
+      }
+
+      .profile-info { position: relative; min-width: 0; }
+      .profile-label {
+        color: var(--text-muted);
+        font-size: .85rem;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        margin: 0;
+      }
+      .profile-name {
+        color: var(--text);
+        font-size: 1.9rem;
+        font-weight: 700;
+        margin: .1rem 0 0;
+        overflow-wrap: anywhere;
+      }
+
+      /* ===== دکمه‌ی ادیت پروفایل ===== */
+      .edit-btn {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        gap: .45rem;
+        flex-shrink: 0;
+        padding: 8px 20px;
+        color: var(--text);
+        font-weight: 600;
+        text-decoration: none;
+        background: linear-gradient(135deg, rgba(108, 99, 255, 0.55), rgba(244, 114, 182, 0.45));
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        box-shadow: 0 4px 14px rgba(108, 99, 255, 0.35);
+        transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+      }
+      .edit-btn:hover {
+        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 22px rgba(108, 99, 255, 0.55);
+      }
+      .edit-btn:active { transform: translateY(0); }
+      .edit-btn:focus-visible {
+        outline: 2px solid var(--accent-2);
+        outline-offset: 3px;
+      }
+
+      /* ===== کارت‌های آماری ===== */
+      .stat-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+      .stat-card {
+        --accent: var(--accent-1);
+        position: relative;
+        overflow: hidden;
+        padding: 1.3rem 1.5rem 1.3rem 1.8rem;
+        background: var(--surface);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+        transition: transform .2s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
+        animation: noteFadeIn .45s ease both;
+      }
+      .stat-card::before {
+        content: "";
+        position: absolute;
+        inset: 0 auto 0 0;
+        width: 5px;
+        background: var(--accent);
+        box-shadow: 0 0 18px var(--accent);
+      }
+      .stat-card:hover {
+        background: var(--surface-hover);
+        border-color: var(--accent);
+        transform: translateY(-3px);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+      }
+      .stat-icon { font-size: 1.5rem; margin-bottom: .3rem; display: block; }
+      .stat-label {
+        color: var(--text-muted);
+        font-size: .9rem;
+        margin: 0;
+      }
+      .stat-value {
+        color: var(--text);
+        font-size: 2.2rem;
+        font-weight: 700;
+        line-height: 1.2;
+        margin: .15rem 0 0;
+      }
+
+      .stat-grid > :nth-child(1) { animation-delay: .08s; }
+      .stat-grid > :nth-child(2) { animation-delay: .16s; }
+
+      /* ===== موبایل ===== */
+      @media (max-width: 576px) {
+        .profile-header { flex-direction: column; justify-content: center; text-align: center; }
+      }
+
+      /* ===== کاهش حرکت ===== */
+      @media (prefers-reduced-motion: reduce) {
+        .profile-header, .stat-card { animation: none; transition: none; }
       }
     </style>
     {% endblock %}

@@ -1,21 +1,33 @@
 {% extends "base.html" %}
 
-{% block title %}Home | Verba{% endblock %}
+{% block title %}Profile | Verba{% endblock %}
 
 {% block content %}
-    <div class="datagrid datagrid-horizontal  card_background_color m-3 ms-6  me-6">
-        <div class="mx-3 mt-4 datagrid-item">
-            <div class="m-2 text_color">
-            <div class="datagrid-title mid_size_text text_color_secoundary">Username</div>
-            <div class="datagrid-content mid_size_text">{{username}}</div>
-            </div>
+<div class="container-xl py-4">
+  <div class="profile-wrap">
+
+    <!-- هدر پروفایل -->
+    <div class="profile-header">
+      <div class="d-flex align-items-center gap-3" style="position: relative; min-width: 0;">
+        <div class="profile-avatar">{{ username|slice:":1"|upper }}</div>
+        <div class="profile-info">
+          <p class="profile-label">Username</p>
+          <h2 class="profile-name" dir="auto">{{ username }}</h2>
         </div>
-        <div class="mx-3 datagrid-item">
-            <div class=" m-2 text_color">
-                <div class="datagrid-title mid_size_text text_color_secoundary">Cards</div>
-                <div class="datagrid-content mid_size_text">{{cards}}</div>
-            </div>
-        </div>
+      </div>
+
+      <a href="{% url 'edit_profile' %}" class="edit-btn">✏️ Edit Profile</a>
     </div>
 
+    <!-- آمار -->
+    <div class="stat-grid">
+      <div class="stat-card accent-1">
+        <span class="stat-icon">🗂️</span>
+        <p class="stat-label">Cards</p>
+        <p class="stat-value">{{ cards }}</p>
+      </div>
+    </div>
+
+  </div>
+</div>
 {% endblock %}
