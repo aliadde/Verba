@@ -1,8 +1,12 @@
-from django.shortcuts import get_object_or_404, render
+from django.contrib import messages
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.cache import never_cache
 
 from verba.apps.users.models import Users
 from verba.core.auth import get_payload_from_request
+from verba.core.decorators import jwt_required
+
+from .forms import NoteForm
 
 
 @never_cache
@@ -23,3 +27,19 @@ def home(request):
         context = {"logged_in": None}
 
     return render(request, "home.html", context=context)
+
+
+@jwt_required
+def add_note(request):
+    if request.method == "POST":
+        form = NoteForm(request.POST)
+        if form.is_valid():
+            note = form.save(commit=False)
+            note.user = request.user
+            note.save()
+            messages.success(request, "Note added successfully.")
+            return redirect("home")
+    else:
+        form = NoteForm()
+
+    return render(request, "add_note.html", {"form": form})

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Add Note | Verba{% endblock %}
+
+{% block content %}
+<div class="auth-wrap">
+  <div class="auth-card auth-card-wide">
+
+    <div class="auth-logo">＋</div>
+    <h3 class="auth-title">New note</h3>
+    <p class="auth-subtitle">Save something you want to remember</p>
+
+    <form method="POST" novalidate>
+      {% csrf_token %}
+
+      <div class="auth-field {% if form.first_note.errors %}has-error{% endif %}">
+        <label class="auth-label" for="{{ form.first_note.id_for_label }}">{{ form.first_note.label }}</label>
+        {{ form.first_note }}
+        <div class="char-counter" data-for="{{ form.first_note.id_for_label }}"></div>
+        {% if form.first_note.errors %}
+          <div class="auth-field-error">{{ form.first_note.errors }}</div>
+        {% endif %}
+      </div>
+
+      <div class="auth-field {% if form.secound_note.errors %}has-error{% endif %}">
+        <label class="auth-label" for="{{ form.secound_note.id_for_label }}">{{ form.secound_note.label }}</label>
+        {{ form.secound_note }}
+        <div class="char-counter" data-for="{{ form.secound_note.id_for_label }}"></div>
+        {% if form.secound_note.errors %}
+          <div class="auth-field-error">{{ form.secound_note.errors }}</div>
+        {% endif %}
+      </div>
+
+      {% if form.non_field_errors %}
+        <div class="auth-error">{{ form.non_field_errors }}</div>
+      {% endif %}
+
+      <div class="auth-actions">
+        <a href="{% url 'home' %}" class="auth-cancel">Cancel</a>
+        <button type="submit" class="auth-submit">Save note</button>
+      </div>
+    </form>
+
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script>
+  document.querySelectorAll(".char-counter").forEach((counter) => {
+    const field = document.getElementById(counter.dataset.for);
+    if (!field) return;
+    const update = () => { counter.textContent = field.value.length + " characters"; };
+    field.addEventListener("input", update);
+    update();
+  });
+</script>
+{% endblock %}

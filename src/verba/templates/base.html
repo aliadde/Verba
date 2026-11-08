@@ -558,7 +558,59 @@
       @media (max-width: 576px) {
         .auth-actions { flex-direction: column-reverse; }
       }
+      /* ===== مخصوص صفحه‌ی Add Note ===== */
+      .auth-card textarea {
+        width: 100%;
+        min-height: 96px;
+        padding: 11px 14px;
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        outline: none;
+        resize: vertical;
+        line-height: 1.7;
+        transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+      }
+      .auth-card textarea::placeholder { color: rgba(169, 166, 214, 0.55); }
+      .auth-card textarea:focus {
+        background: rgba(255, 255, 255, 0.09);
+        border-color: var(--accent-1);
+        box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.25);
+        color: var(--text);
+      }
+      .auth-field.has-error textarea { border-color: rgba(255, 77, 109, 0.6); }
+      .auth-field.has-error textarea:focus { box-shadow: 0 0 0 4px rgba(255, 77, 109, 0.2); }
 
+      /* شمارنده‌ی کاراکتر */
+      .char-counter {
+        text-align: end;
+        color: var(--text-muted);
+        font-size: .78rem;
+        margin-top: .3rem;
+        opacity: .8;
+      }
+
+      /* دکمه‌ی «Add Note» در صفحه‌ی Home */
+      .add-note-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: .4rem;
+        padding: 8px 20px;
+        color: #fff;
+        font-weight: 600;
+        text-decoration: none;
+        background: linear-gradient(135deg, var(--accent-1), #8b5cf6 55%, var(--accent-4));
+        border-radius: 999px;
+        box-shadow: 0 4px 14px rgba(108, 99, 255, 0.4);
+        transition: transform .2s ease, box-shadow .2s ease;
+      }
+      .add-note-btn:hover {
+        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 22px rgba(108, 99, 255, 0.6);
+      }
+      .add-note-btn:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 3px; }
     </style>
     {% endblock %}
 </head>
