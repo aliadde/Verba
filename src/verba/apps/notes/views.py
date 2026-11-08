@@ -1,9 +1,11 @@
 from django.shortcuts import get_object_or_404, render
+from django.views.decorators.cache import never_cache
 
 from verba.apps.users.models import Users
 from verba.core.auth import get_payload_from_request
 
 
+@never_cache
 def home(request):
     cookies: dict[str, any] = request.COOKIES
 

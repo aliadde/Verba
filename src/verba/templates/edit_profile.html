@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Profile | Verba{% endblock %}
+
+{% block content %}
+<div class="auth-wrap">
+  <div class="auth-card">
+
+    <div class="auth-avatar">{{ request.user.username|slice:":1"|upper }}</div>
+    <h3 class="auth-title">Edit profile</h3>
+    <p class="auth-subtitle">Update your account details</p>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="auth-success">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="POST" novalidate>
+      {% csrf_token %}
+
+      <div class="auth-field {% if form.username.errors %}has-error{% endif %}">
+        <label class="auth-label" for="{{ form.username.id_for_label }}">Username</label>
+        {{ form.username }}
+        {% if form.username.errors %}
+          <div class="auth-field-error">{{ form.username.errors }}</div>
+        {% endif %}
+      </div>
+
+      <div class="auth-field {% if form.email.errors %}has-error{% endif %}">
+        <label class="auth-label" for="{{ form.email.id_for_label }}">Email</label>
+        {{ form.email }}
+        {% if form.email.errors %}
+          <div class="auth-field-error">{{ form.email.errors }}</div>
+        {% endif %}
+      </div>
+
+      {% if form.non_field_errors %}
+        <div class="auth-error">{{ form.non_field_errors }}</div>
+      {% endif %}
+
+      <div class="auth-actions">
+        <a href="{% url 'profile' %}" class="auth-cancel">Cancel</a>
+        <button type="submit" class="auth-submit">Save changes</button>
+      </div>
+    </form>
+
+  </div>
+</div>
+{% endblock %}

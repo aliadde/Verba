@@ -2,11 +2,12 @@ from datetime import UTC, datetime, timedelta
 
 import jwt
 from django.conf import settings
+from django.contrib import messages
 from django.shortcuts import redirect, render
 from django.views import View
 from django.views.decorators.http import require_http_methods
 
-from .forms import LoginForm, RegisterForm
+from .forms import EditProfileForm, LoginForm, RegisterForm
 
 
 def create_access_token(user):
@@ -97,13 +98,18 @@ class UserRegisterView(View):
         )
 
 
+from verba.apps.notes.models import Notes
 from verba.core.decorators import jwt_required
 
 
 @require_http_methods(["GET"])
 @jwt_required
 def profile(request):
-    context = {"username": "sample username", "email": "sample email", "cards": 12}
+    context = {
+        "username": request.user.username,
+        "email": request.user.email,
+        "cards": Notes.objects.filter(user=request.user).count(),
+    }
 
     response = render(request, "profile.html", context=context)
 
@@ -127,3 +133,16 @@ def logout(request):
     response.delete_cookie("logged_in")
 
     return response
+
+
+@jwt_required
+def edit_profile(request):
+    if request.method == "POST":
+        form = EditProfileForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Profile updated successfully.")
+            return redirect("edit_profile")
+    else:
+        form = EditProfileForm(instance=request.user)
+    return render(request, "edit_profile.html", {"form": form})

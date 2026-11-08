@@ -493,6 +493,72 @@
 
       /* کارت Register کمی عریض‌تر از Login */
       .auth-card.auth-card-wide { max-width: 520px; }
+
+      /* ===== مخصوص صفحه‌ی Edit Profile ===== */
+
+      /* دو دکمه کنار هم: ذخیره و لغو */
+      .auth-actions {
+        display: flex;
+        gap: .8rem;
+        margin-top: .6rem;
+      }
+      .auth-actions .auth-submit { margin-top: 0; flex: 1; }
+
+      .auth-cancel {
+        flex: 0 0 auto;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 11px 22px;
+        color: var(--text);
+        font-weight: 600;
+        text-decoration: none;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        transition: background .2s ease, transform .2s ease;
+      }
+      .auth-cancel:hover {
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.16);
+        transform: translateY(-2px);
+      }
+      .auth-cancel:focus-visible {
+        outline: 2px solid var(--accent-2);
+        outline-offset: 3px;
+      }
+
+      /* پیام‌های موفقیت (django messages) */
+      .auth-success {
+        color: #6ee7b7;
+        background: rgba(45, 212, 191, 0.12);
+        border: 1px solid rgba(45, 212, 191, 0.3);
+        border-radius: 12px;
+        padding: .6rem .9rem;
+        margin-bottom: 1rem;
+        font-size: .9rem;
+      }
+
+      /* آواتار کوچک بالای فرم */
+      .auth-avatar {
+        width: 72px;
+        height: 72px;
+        margin: 0 auto 1rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.9rem;
+        font-weight: 700;
+        color: #fff;
+        background: linear-gradient(135deg, var(--accent-1), var(--accent-4));
+        box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.08), 0 0 28px rgba(108, 99, 255, 0.55);
+      }
+
+      @media (max-width: 576px) {
+        .auth-actions { flex-direction: column-reverse; }
+      }
+
     </style>
     {% endblock %}
 </head>
