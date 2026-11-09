@@ -8,7 +8,7 @@ class Notes(models.Model):
         unique=True,
     )
     secound_note: models.TextField = models.TextField(
-        unique=True,
+        unique=True, blank=True, null=True
     )
     user: models.ForeignKey = models.ForeignKey(to=Users, on_delete=models.CASCADE)
     created_at: models.DateField = models.DateField(
