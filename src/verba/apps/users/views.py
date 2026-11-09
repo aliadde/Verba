@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.shortcuts import redirect, render
+from django.utils import timezone
 from django.views import View
 from django.views.decorators.http import require_http_methods
 
@@ -85,7 +86,9 @@ def edit_profile(request):
     if request.method == "POST":
         form = EditProfileForm(request.POST, instance=request.user)
         if form.is_valid():
-            form.save()
+            user = form.save(commit=False)
+            user.updated_at = timezone.now()
+            user.save()
             messages.success(request, "Profile updated successfully.")
             return redirect("edit_profile")
     else:
