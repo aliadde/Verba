@@ -9,6 +9,7 @@ authors = [
 requires-python = ">=3.13"
 dependencies = [
     "django>=6.1.2",
+    "dotenv>=0.9.9",
     "pre-commit>=4.7.0",
     "pyjwt>=2.15.1",
 ]

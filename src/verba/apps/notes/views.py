@@ -14,7 +14,7 @@ from .models import Notes
 @never_cache
 @jwt_optional
 def home(request):
-    cookies: dict[str, any] = request.COOKIES
+    cookies = request.COOKIES
 
     if cookies.get("logged_in") == "true" and get_payload_from_request(request):
         # jwt toekn check
