@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="auth-wrap">
-  <div class="auth-card auth-card-wide">
+  <div class="auth-card auth-card-wide auth-card-xl">
 
     <div class="auth-logo">＋</div>
     <h3 class="auth-title">New note</h3>
@@ -48,6 +48,22 @@
 {% block extra_js %}
 {{ block.super }}
 <script>
+  // رشد خودکار کادر با طول متن
+  function autoGrow(el) {
+    el.style.height = "auto";
+    const border = el.offsetHeight - el.clientHeight;
+    el.style.height = (el.scrollHeight + border) + "px";
+  }
+
+  document.querySelectorAll(".auth-card-xl textarea").forEach((field) => {
+    autoGrow(field);
+    field.addEventListener("input", () => autoGrow(field));
+  });
+  window.addEventListener("resize", () => {
+    document.querySelectorAll(".auth-card-xl textarea").forEach(autoGrow);
+  });
+
+  // شمارنده‌ی کاراکتر
   document.querySelectorAll(".char-counter").forEach((counter) => {
     const field = document.getElementById(counter.dataset.for);
     if (!field) return;

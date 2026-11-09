@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils import timezone
 from django.views.decorators.cache import never_cache
 
 from verba.apps.users.models import Users
@@ -50,3 +51,21 @@ def add_note(request):
 def note_detail(request, note_id):
     note = get_object_or_404(Notes, pk=note_id, user=request.user)
     return render(request, "note_detail.html", {"note": note})
+
+
+@jwt_required
+def edit_note(request, note_id):
+    note = get_object_or_404(Notes, pk=note_id, user=request.user)
+
+    if request.method == "POST":
+        form = NoteForm(request.POST, instance=note)
+        if form.is_valid():
+            note = form.save(commit=False)
+            note.updated_at = timezone.localdate()  # تاریخ آخرین ویرایش
+            note.save()
+            messages.success(request, "Note updated successfully.")
+            return redirect("note_detail", note_id=note.id)
+    else:
+        form = NoteForm(instance=note)
+
+    return render(request, "edit_note.html", {"form": form, "note": note})

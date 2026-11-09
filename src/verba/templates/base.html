@@ -680,6 +680,35 @@
         .note-detail { animation: none; }
       }
 
+      .note-detail-actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: .8rem;
+        margin-top: 1.6rem;
+      }
+      /* ===== کادر متن بزرگ‌تر برای ویرایش ===== */
+      .auth-card.auth-card-xl { max-width: 760px; }
+
+      .auth-card-xl textarea {
+        min-height: 180px;
+        max-height: 60vh;          /* خیلی بلند نشود؛ بعد از آن اسکرول می‌خورد */
+        padding: 14px 16px;
+        font-size: 1.1rem;
+        line-height: 1.8;
+        overflow-y: auto;
+      }
+      .auth-card.auth-card-xl { max-width: 760px; }
+
+      .auth-card-xl textarea {
+        min-height: 180px;
+        max-height: 60vh;
+        padding: 14px 16px;
+        font-size: 1.1rem;
+        line-height: 1.8;
+        overflow-y: auto;
+      }
     </style>
     {% endblock %}
 </head>

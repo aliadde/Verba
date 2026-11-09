@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Note | Verba{% endblock %}
+
+{% block content %}
+<div class="auth-wrap">
+  <div class="auth-card auth-card-wide auth-card-xl">
+
+    <div class="auth-logo">✏️</div>
+    <h3 class="auth-title">Edit note</h3>
+    <p class="auth-subtitle">Update your note and save</p>
+
+    <form method="POST" novalidate>
+      {% csrf_token %}
+
+      <div class="auth-field {% if form.first_note.errors %}has-error{% endif %}">
+        <label class="auth-label" for="{{ form.first_note.id_for_label }}">{{ form.first_note.label }}</label>
+        {{ form.first_note }}
+        <div class="char-counter" data-for="{{ form.first_note.id_for_label }}"></div>
+        {% if form.first_note.errors %}
+          <div class="auth-field-error">{{ form.first_note.errors }}</div>
+        {% endif %}
+      </div>
+
+      <div class="auth-field {% if form.secound_note.errors %}has-error{% endif %}">
+        <label class="auth-label" for="{{ form.secound_note.id_for_label }}">{{ form.secound_note.label }}</label>
+        {{ form.secound_note }}
+        <div class="char-counter" data-for="{{ form.secound_note.id_for_label }}"></div>
+        {% if form.secound_note.errors %}
+          <div class="auth-field-error">{{ form.secound_note.errors }}</div>
+        {% endif %}
+      </div>
+
+      {% if form.non_field_errors %}
+        <div class="auth-error">{{ form.non_field_errors }}</div>
+      {% endif %}
+
+      <div class="auth-actions">
+        <a href="{% url 'note_detail' note.id %}" class="auth-cancel">Cancel</a>
+        <button type="submit" class="auth-submit">Save changes</button>
+      </div>
+    </form>
+
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script>
+  // رشد خودکار کادر با طول متن
+  function autoGrow(el) {
+    el.style.height = "auto";
+    const border = el.offsetHeight - el.clientHeight;
+    el.style.height = (el.scrollHeight + border) + "px";
+  }
+
+  document.querySelectorAll(".auth-card-xl textarea").forEach((field) => {
+    autoGrow(field);
+    field.addEventListener("input", () => autoGrow(field));
+  });
+  window.addEventListener("resize", () => {
+    document.querySelectorAll(".auth-card-xl textarea").forEach(autoGrow);
+  });
+
+  // شمارنده‌ی کاراکتر
+  document.querySelectorAll(".char-counter").forEach((counter) => {
+    const field = document.getElementById(counter.dataset.for);
+    if (!field) return;
+    const update = () => { counter.textContent = field.value.length + " characters"; };
+    field.addEventListener("input", update);
+    update();
+  });
+</script>
+{% endblock %}

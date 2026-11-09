@@ -6,16 +6,26 @@
 <div class="container-xl py-4">
   <div class="note-detail">
 
+    {% if messages %}
+      {% for message in messages %}
+        <div class="auth-success">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
     <p class="note-detail-label">Note</p>
     <p class="note-detail-text" dir="auto">{{ note.first_note }}</p>
 
     <p class="note-detail-label">Second note</p>
     <p class="note-detail-text secondary" dir="auto">{{ note.secound_note }}</p>
 
-    <p class="note-detail-meta">Created: {{ note.created_at|date:"Y-m-d" }}</p>
+    <p class="note-detail-meta">
+      Created: {{ note.created_at|date:"Y-m-d" }}
+      {% if note.updated_at %} · Edited: {{ note.updated_at|date:"Y-m-d" }}{% endif %}
+    </p>
 
     <div class="note-detail-actions">
       <a href="{% url 'home' %}" class="auth-cancel">← Back to notes</a>
+      <a href="{% url 'edit_note' note.id %}" class="edit-btn">✏️ Edit Note</a>
     </div>
 
   </div>
