@@ -5,13 +5,14 @@ from django.views.decorators.cache import never_cache
 
 from verba.apps.users.models import Users
 from verba.core.auth import get_payload_from_request
-from verba.core.decorators import jwt_required
+from verba.core.decorators import jwt_optional, jwt_required
 
 from .forms import NoteForm
 from .models import Notes
 
 
 @never_cache
+@jwt_optional
 def home(request):
     cookies: dict[str, any] = request.COOKIES
 

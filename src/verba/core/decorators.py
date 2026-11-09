@@ -1,38 +1,41 @@
 from functools import wraps
 
-from django.contrib.auth import get_user_model
 from django.shortcuts import redirect
 from django.utils.cache import add_never_cache_headers
 
-from verba.core.auth import get_payload_from_request
+from verba.core.auth import authenticate, clear_auth_cookies, set_auth_cookies
 
-User = get_user_model()
+
+def _finish(response, new_tokens):
+    if new_tokens:
+        set_auth_cookies(response, *new_tokens)
+    add_never_cache_headers(response)
+    response["Cache-Control"] = (
+        "no-store, no-cache, must-revalidate, max-age=0, private"
+    )
+    return response
 
 
 def jwt_required(view):
     @wraps(view)
     def wrapper(request, *args, **kwargs):
-        payload = get_payload_from_request(request)
+        user, new_tokens = authenticate(request)
+        if user is None:
+            return clear_auth_cookies(redirect("login"))
 
-        if payload is None:
-            return redirect("login")
-
-        try:
-            user = User.objects.get(pk=payload["sub"])
-        except (User.DoesNotExist, KeyError, ValueError):
-            response = redirect("login")
-            response.delete_cookie("access_token")
-            response.delete_cookie("logged_in")
-            return response
-
-        request.jwt_payload = payload
         request.user = user
+        return _finish(view(request, *args, **kwargs), new_tokens)
 
-        response = view(request, *args, **kwargs)
-        add_never_cache_headers(response)  # کش نشود
-        response["Cache-Control"] = (
-            "no-store, no-cache, must-revalidate, max-age=0, private"
-        )
-        return response
+    return wrapper
+
+
+def jwt_optional(view):
+    """برای صفحه‌هایی مثل Home که مهمان هم می‌تواند ببیند."""
+
+    @wraps(view)
+    def wrapper(request, *args, **kwargs):
+        user, new_tokens = authenticate(request)
+        request.user = user  # None برای مهمان
+        return _finish(view(request, *args, **kwargs), new_tokens)
 
     return wrapper

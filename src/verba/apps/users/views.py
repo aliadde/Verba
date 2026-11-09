@@ -1,42 +1,16 @@
-from datetime import UTC, datetime, timedelta
-
-import jwt
-from django.conf import settings
 from django.contrib import messages
 from django.shortcuts import redirect, render
 from django.views import View
 from django.views.decorators.http import require_http_methods
 
+from verba.core.auth import (
+    clear_auth_cookies,
+    revoke_refresh_token,
+    start_session,
+)
+from verba.core.decorators import jwt_required
+
 from .forms import EditProfileForm, LoginForm, RegisterForm
-
-
-def create_access_token(user):
-    now = datetime.now(UTC)
-
-    payload = {
-        "sub": str(user.pk),
-        "iat": now,
-        "exp": now + timedelta(minutes=30),
-    }
-
-    return jwt.encode(
-        payload,
-        settings.JWT_SECRET_KEY,
-        algorithm="HS256",
-    )
-
-
-def set_auth_cookie(response, token):
-    response.set_cookie(
-        key="access_token",
-        value=token,
-        httponly=True,
-        secure=not settings.DEBUG,
-        samesite="Lax",
-        max_age=30 * 60,
-    )
-
-    return response
 
 
 class UserLoginView(View):
@@ -50,13 +24,7 @@ class UserLoginView(View):
         form = LoginForm(request, data=request.POST)
 
         if form.is_valid():
-            token = create_access_token(form.get_user())
-
-            response = redirect("profile")
-
-            response = set_auth_cookie(response, token)
-
-            return response
+            return start_session(redirect("profile"), form.get_user())
 
         return render(
             request,
@@ -71,24 +39,14 @@ class UserRegisterView(View):
 
     def get(self, request):
         form = RegisterForm()
-
-        return render(
-            request,
-            self.template_name,
-            {"form": form},
-        )
+        return render(request, self.template_name, {"form": form})
 
     def post(self, request):
         form = RegisterForm(request.POST)
 
         if form.is_valid():
             user = form.save()
-
-            token = create_access_token(user)
-
-            response = redirect("profile")
-
-            return set_auth_cookie(response, token)
+            return start_session(redirect("profile"), user)
 
         return render(
             request,
@@ -98,40 +56,27 @@ class UserRegisterView(View):
         )
 
 
-from verba.apps.notes.models import Notes
-from verba.core.decorators import jwt_required
-
-
 @require_http_methods(["GET"])
 @jwt_required
 def profile(request):
     context = {
         "username": request.user.username,
         "email": request.user.email,
-        "cards": Notes.objects.filter(user=request.user).count(),
+        # مدل Notes فیلد user بدون related_name دارد، پس اسم پیش‌فرض این است
+        "cards": request.user.notes_set.count(),
     }
-
-    response = render(request, "profile.html", context=context)
-
-    response.set_cookie(
-        key="logged_in",
-        value="true",
-        samesite="Lax",
-        path="/",
-        max_age=30 * 60,
-    )
-
-    return response
+    return render(request, "profile.html", context=context)
 
 
 @require_http_methods(["GET"])
-@jwt_required
 def logout(request):
-    response = redirect("login")
+    # عمداً بدون jwt_required: کاربری که access‌اش منقضی شده هم باید بتواند خارج شود
+    raw = request.COOKIES.get("refresh_token")
+    if raw:
+        revoke_refresh_token(raw)  # در دیتابیس هم باطل شود
 
-    response.delete_cookie("access_token")
-    response.delete_cookie("logged_in")
-
+    response = clear_auth_cookies(redirect("login"))
+    response["Clear-Site-Data"] = '"cache", "storage"'
     return response
 
 
@@ -145,4 +90,5 @@ def edit_profile(request):
             return redirect("edit_profile")
     else:
         form = EditProfileForm(instance=request.user)
+
     return render(request, "edit_profile.html", {"form": form})

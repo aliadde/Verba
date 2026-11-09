@@ -74,3 +74,7 @@ LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "home"
 
 JWT_SECRET_KEY = "unsafe jwt toekn for development"
+
+JWT_ACCESS_LIFETIME_MINUTES = 15
+
+JWT_REFRESH_LIFETIME_DAYS = 14

@@ -57,3 +57,13 @@ class Users(AbstractUser):
     REQUIRED_FIELDS: ClassVar[list[str]] = []
 
     objects: ClassVar[UserManager] = UserManager()  # type: ignore[assignment]
+
+
+class RefreshToken(models.Model):
+    user: models.ForeignKey = models.ForeignKey(
+        Users, on_delete=models.CASCADE, related_name="refresh_tokens"
+    )
+    token_hash: models.CharField = models.CharField(max_length=64, unique=True)
+    expires_at: models.DateTimeField = models.DateTimeField()
+    revoked_at: models.DateTimeField = models.DateTimeField(null=True, blank=True)
+    created_at: models.DateTimeField = models.DateTimeField(auto_now_add=True)
