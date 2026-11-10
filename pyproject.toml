@@ -1,7 +1,7 @@
 [project]
 name = "verba"
 version = "0.1.0"
-description = "Add your description here"
+description = "Write your note and keep them with eachother"
 readme = "README.md"
 authors = [
     { name = "aliadde", email = "aliadely1384@gmail.com" }
@@ -10,6 +10,7 @@ requires-python = ">=3.13"
 dependencies = [
     "django>=6.1.2",
     "dotenv>=0.9.9",
+    "gunicorn>=26.2.0",
     "pre-commit>=4.7.0",
     "pyjwt>=2.15.1",
 ]
