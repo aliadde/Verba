@@ -7,10 +7,33 @@ services:
 
     container_name: verba
 
-    ports:
-      - "8000:80"
+    expose:
+      - "80"
 
     env_file:
       - .env
 
+    volumes:
+      - static_data:/app/staticfiles
+
     restart: unless-stopped
+
+  nginx:
+    image: nginx:alpine
+
+    container_name: verba-nginx
+
+    ports:
+      - "80:80"
+
+    volumes:
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - static_data:/usr/share/nginx/html/static:ro
+
+    depends_on:
+      - web
+
+    restart: unless-stopped
+
+volumes:
+  static_data:

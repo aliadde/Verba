@@ -49,14 +49,18 @@ COPY --from=builder /app/.venv /app/.venv
 # Copy application source
 COPY --from=builder /app/src /app/src
 COPY --from=builder /app/manage.py /app/manage.py
+COPY --from=builder /app/entrypoint.sh /app/entrypoint.sh
+
+RUN chmod +x /app/entrypoint.sh
 
 # Create non-root user
 RUN addgroup --system app && \
     adduser --system --ingroup app app && \
+    mkdir -p /app/staticfiles && \
     chown -R app:app /app
 
 USER app
 
 EXPOSE 80
 
-CMD ["gunicorn", "verba.configs.wsgi:application", "--bind", "0.0.0.0:80", "--workers", "3", "--access-logfile", "-", "--error-logfile", "-"]
+CMD ["/app/entrypoint.sh"]
