@@ -51,6 +51,16 @@ TEMPLATES = [
     },
 ]
 
+SECURE_PROXY_SSL_HEADER = (
+    "HTTP_X_FORWARDED_PROTO",
+    "https",
+)
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://verbanote.ir",
+    "https://www.verbanote.ir",
+]
+
 WSGI_APPLICATION = "src.verba.configs.wsgi.application"
 
 LANGUAGE_CODE = "en-us"
