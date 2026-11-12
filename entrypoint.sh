@@ -5,7 +5,9 @@ set -e
 echo "Collecting static files..."
 python manage.py collectstatic --noinput
 
-python manage.py migrate 
+mkdir -p /data/
+
+python manage.py migrate
 
 python manage.py create_admin
 
