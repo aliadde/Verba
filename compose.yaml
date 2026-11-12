@@ -15,6 +15,7 @@ services:
 
     volumes:
       - static_data:/app/staticfiles
+      - ./data:/data
 
     restart: unless-stopped
 
