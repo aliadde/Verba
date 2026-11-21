@@ -72,65 +72,72 @@ document.addEventListener("DOMContentLoaded", () => {
         element.replaceChildren(fragment);
     }
 
+    let searchTimeout;
+
     searchInput.addEventListener("input", () => {
-        const query = searchInput.value.trim().toLowerCase();
-        let visibleCount = 0;
+        clearTimeout(searchTimeout);
 
-        noteCards.forEach(card => {
-            const first = card.dataset.first || "";
-            const second = card.dataset.second || "";
+        searchTimeout = setTimeout(() => {
+            const query = searchInput.value.trim().toLowerCase();
+            let visibleCount = 0;
 
-            const firstElement = card.querySelector(".note-preview-first");
-            const secondElement = card.querySelector(".note-preview-second");
+            noteCards.forEach(card => {
+                const first = card.dataset.first || "";
+                const second = card.dataset.second || "";
 
-            if (!query) {
-                card.classList.remove("d-none");
+                const firstElement = card.querySelector(".note-preview-first");
+                const secondElement = card.querySelector(".note-preview-second");
 
-                firstElement.textContent = first.slice(0, 100);
-                secondElement.textContent = second.slice(0, 100);
+                if (!query) {
+                    card.classList.remove("d-none");
+
+                    firstElement.textContent = first.slice(0, 100);
+                    secondElement.textContent = second.slice(0, 100);
+
+                    visibleCount++;
+                    return;
+                }
+
+                const firstMatch = first.toLowerCase().includes(query);
+                const secondMatch = second.toLowerCase().includes(query);
+
+                const matches = firstMatch || secondMatch;
+
+                card.classList.toggle("d-none", !matches);
+
+                if (!matches) return;
 
                 visibleCount++;
-                return;
+
+                if (firstMatch) {
+                    renderSnippet(firstElement, first, query);
+                } else {
+                    firstElement.textContent = first.slice(0, 100);
+                }
+
+                if (secondMatch) {
+                    renderSnippet(secondElement, second, query);
+                } else {
+                    secondElement.textContent = second.slice(0, 100);
+                }
+            });
+
+            // Update results count
+            if (resultsCount) {
+                resultsCount.textContent = query
+                    ? `${visibleCount} of ${noteCards.length} notes found`
+                    : `${noteCards.length} notes`;
             }
 
-            const firstMatch = first.toLowerCase().includes(query);
-            const secondMatch = second.toLowerCase().includes(query);
-
-            const matches = firstMatch || secondMatch;
-
-            card.classList.toggle("d-none", !matches);
-
-            if (!matches) return;
-
-            visibleCount++;
-
-            if (firstMatch) {
-                renderSnippet(firstElement, first, query);
-            } else {
-                firstElement.textContent = first.slice(0, 100);
+            // Show empty state
+            if (emptyState) {
+                emptyState.classList.toggle(
+                    "d-none",
+                    visibleCount !== 0 || !query
+                );
             }
 
-            if (secondMatch) {
-                renderSnippet(secondElement, second, query);
-            } else {
-                secondElement.textContent = second.slice(0, 100);
-            }
-        });
-
-        // Update results count
-        if (resultsCount) {
-            resultsCount.textContent = query
-                ? `${visibleCount} of ${noteCards.length} notes found`
-                : `${noteCards.length} notes`;
-        }
-
-        // Show empty state
-        if (emptyState) {
-            emptyState.classList.toggle(
-                "d-none",
-                visibleCount !== 0 || !query
-            );
-        }
+        }, 300);
     });
 
     // Initialize results count
