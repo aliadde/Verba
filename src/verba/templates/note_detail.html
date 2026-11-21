@@ -26,6 +26,9 @@
     <div class="note-detail-actions">
       <a href="{% url 'home' %}" class="auth-cancel">← Back to notes</a>
       <a href="{% url 'edit_note' note.id %}" class="edit-btn">✏️ Edit Note</a>
+      <a href="{% url 'delete_note' note.id %}" class="delete-btn">
+        🗑 Delete Note
+      </a>
     </div>
 
   </div>

@@ -70,3 +70,13 @@ def edit_note(request, note_id):
         form = NoteForm(instance=note)
 
     return render(request, "edit_note.html", {"form": form, "note": note})
+
+
+@jwt_required
+def delete_note(request, note_id):
+    note = get_object_or_404(Notes, pk=note_id, user=request.user)
+
+    note.delete()
+
+    messages.success(request, "Note Deleted successfully.")
+    return redirect("home")
