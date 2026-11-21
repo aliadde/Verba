@@ -32,17 +32,45 @@
       </h3>
       <a href="{% url 'add_note' %}" class="add-note-btn">＋ Add Note</a>
     </div>
+    <div class="mb-3">
+      <input
+          type="search"
+          id="note-search"
+          class="form-control"
+          placeholder="Search your notes..."
+          autocomplete="off"
+        >
+    </div>
+
+    <div class="search-info mb-3">
+        <span id="search-results-count"></span>
+    </div>
+
+    <div id="search-empty-state" class="empty-state d-none">
+        <span class="emoji">🔎</span>
+        No notes found.
+    </div>
 
     <div class="note-list d-flex flex-column gap-3">
       {% for user_note in user_notes %}
-        <div class="card note-card accent-{% cycle '1' '2' '3' '4' %}">
+        <div
+              class="card note-card accent-{% cycle '1' '2' '3' '4' %}"
+              data-first="{{ user_note.first_note }}"
+              data-second="{{ user_note.secound_note|default:'' }}"
+        >
           <div class="card-body">
             <h2 class="note-title" dir="auto">
               <a href="{% url 'note_detail' user_note.id %}" class="note-link stretched-link">
-                {{ user_note.first_note|truncatechars:100 }}
+                <span class="note-preview-first">
+                    {{ user_note.first_note|truncatechars:100 }}
+                </span>
               </a>
             </h2>
-            <h4 class="note-subtitle" dir="auto">{{ user_note.secound_note|truncatechars:100 }}</h4>
+            <h4 class="note-subtitle" dir="auto">
+              <span class="note-preview-second">
+                  {{ user_note.secound_note|truncatechars:100 }}
+              </span>
+            </h4>
           </div>
         </div>
       {% empty %}
