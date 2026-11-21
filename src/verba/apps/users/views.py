@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth import get_user_model
 from django.shortcuts import redirect, render
 from django.utils import timezone
 from django.views import View
@@ -14,6 +15,34 @@ from verba.core.decorators import jwt_required
 from .forms import EditProfileForm, LoginForm, RegisterForm
 
 
+def authenticate_user(identifier: str, password: str):
+    """authenticate user.
+
+    Args:
+        identifier: username or email
+        password: password
+
+    Returns:
+        None if user not exist or password is invalid
+        user object if authenticated user
+    """
+
+    User = get_user_model()
+
+    user = User.objects.filter(username=identifier).first()
+
+    if user is None:
+        user = User.objects.filter(email=identifier).first()
+
+    if user is None:
+        return None
+
+    if not user.check_password(password):
+        return None
+
+    return user
+
+
 class UserLoginView(View):
     template_name = "login.html"
 
@@ -22,10 +51,27 @@ class UserLoginView(View):
         return render(request, self.template_name, {"form": form})
 
     def post(self, request):
-        form = LoginForm(request, data=request.POST)
+        form = LoginForm(request.POST)
 
         if form.is_valid():
-            return start_session(redirect("profile"), form.get_user())
+            user = authenticate_user(
+                identifier=form.cleaned_data["username"],
+                password=form.cleaned_data["password"],
+            )
+            if user is not None:
+                return start_session(
+                    redirect("profile"),
+                    user,
+                )
+
+            form.add_error(None, "Invalid username or password.")
+
+            return render(
+                request,
+                self.template_name,
+                {"form": form},
+                status=400,
+            )
 
         return render(
             request,
