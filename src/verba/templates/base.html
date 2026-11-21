@@ -728,6 +728,16 @@
         line-height: 1.8;
         overflow-y: auto;
       }
+      .django-message {
+        opacity: 1;
+        transform: translateY(0);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+      }
+
+      .django-message.fade-out {
+        opacity: 0;
+        transform: translateY(-8px);
+      }
     </style>
     {% endblock %}
 </head>
@@ -826,6 +836,20 @@
                 }
               });
 
+          document.addEventListener("DOMContentLoaded", () => {
+            const messages = document.querySelectorAll(".django-message");
+
+            messages.forEach((message) => {
+                setTimeout(() => {
+                    message.classList.add("fade-out");
+
+                    message.addEventListener("transitionend", () => {
+                        message.remove();
+                    }, { once: true });
+
+                }, 4000);
+            });
+        });
           </script>
             {% endblock %}
         </div>
