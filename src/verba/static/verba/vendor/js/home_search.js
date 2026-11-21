@@ -7,6 +7,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!searchInput) return;
 
+    const notesCache = Array.from(noteCards).map(card => {
+        const first = card.dataset.first || "";
+        const second = card.dataset.second || "";
+
+        return {
+            card,
+            first,
+            second,
+            firstLower: first.toLowerCase(),
+            secondLower: second.toLowerCase(),
+            firstElement: card.querySelector(".note-preview-first"),
+            secondElement: card.querySelector(".note-preview-second")
+        };
+    });
+
     function renderSnippet(element, text, query, context = 40) {
         const lowerText = text.toLowerCase();
         const matches = [];
@@ -15,6 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Find all matches
         while (position < text.length) {
             const index = lowerText.indexOf(query, position);
+
             if (index === -1) break;
 
             matches.push(index);
@@ -24,7 +40,10 @@ document.addEventListener("DOMContentLoaded", () => {
         // Limit displayed matches
         const ranges = matches.slice(0, 3).map(index => ({
             start: Math.max(0, index - context),
-            end: Math.min(text.length, index + query.length + context)
+            end: Math.min(
+                text.length,
+                index + query.length + context
+            )
         }));
 
         // Merge overlapping ranges
@@ -43,30 +62,47 @@ document.addEventListener("DOMContentLoaded", () => {
         const fragment = document.createDocumentFragment();
 
         merged.forEach((range, rangeIndex) => {
-            if (rangeIndex > 0) fragment.append(" ... ");
-            if (range.start > 0) fragment.append("...");
+            if (rangeIndex > 0) {
+                fragment.append(" ... ");
+            }
+
+            if (range.start > 0) {
+                fragment.append("...");
+            }
 
             let cursor = range.start;
 
             matches.forEach(index => {
-                if (index < range.start || index >= range.end) return;
+                if (index < range.start || index >= range.end) {
+                    return;
+                }
 
                 fragment.append(
-                    document.createTextNode(text.slice(cursor, index))
+                    document.createTextNode(
+                        text.slice(cursor, index)
+                    )
                 );
 
                 const mark = document.createElement("mark");
-                mark.textContent = text.slice(index, index + query.length);
+                mark.textContent = text.slice(
+                    index,
+                    index + query.length
+                );
+
                 fragment.append(mark);
 
                 cursor = index + query.length;
             });
 
             fragment.append(
-                document.createTextNode(text.slice(cursor, range.end))
+                document.createTextNode(
+                    text.slice(cursor, range.end)
+                )
             );
 
-            if (range.end < text.length) fragment.append("...");
+            if (range.end < text.length) {
+                fragment.append("...");
+            }
         });
 
         element.replaceChildren(fragment);
@@ -81,12 +117,16 @@ document.addEventListener("DOMContentLoaded", () => {
             const query = searchInput.value.trim().toLowerCase();
             let visibleCount = 0;
 
-            noteCards.forEach(card => {
-                const first = card.dataset.first || "";
-                const second = card.dataset.second || "";
-
-                const firstElement = card.querySelector(".note-preview-first");
-                const secondElement = card.querySelector(".note-preview-second");
+            notesCache.forEach(note => {
+                const {
+                    card,
+                    first,
+                    second,
+                    firstLower,
+                    secondLower,
+                    firstElement,
+                    secondElement
+                } = note;
 
                 if (!query) {
                     card.classList.remove("d-none");
@@ -95,11 +135,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     secondElement.textContent = second.slice(0, 100);
 
                     visibleCount++;
+
                     return;
                 }
 
-                const firstMatch = first.toLowerCase().includes(query);
-                const secondMatch = second.toLowerCase().includes(query);
+                const firstMatch = firstLower.includes(query);
+                const secondMatch = secondLower.includes(query);
 
                 const matches = firstMatch || secondMatch;
 
